@@ -37,6 +37,8 @@ interface GobanThemePickerState {
     whiteCustom: string;
     blackCustom: string;
     urlCustom: string;
+    blackUrlCustom: string;
+    whiteUrlCustom: string;
 }
 export class GobanThemePicker extends React.PureComponent<GobanThemePickerProperties, GobanThemePickerState> {
     canvases: {[k: string]: JQuery[]} = {};
@@ -56,7 +58,9 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
             lineCustom: this.getCustom("line"),
             whiteCustom: this.getCustom("white"),
             blackCustom: this.getCustom("black"),
-            urlCustom: this.getCustom("url")
+            urlCustom: this.getCustom("url"),
+            blackUrlCustom: this.getCustom("blackUrl"),
+            whiteUrlCustom: this.getCustom("whiteUrl")
         };
 
         for (const k in GoThemesSorted) {
@@ -104,8 +108,16 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
         this.setState(up);
         this.renderPickers();
 
-        if (key === "url") { // Changing the custom image should update the board theme
+        if (key === "url") { // Changing the custom board image should update the board theme
             key = "board";
+        }
+
+        // Changing either custom stone image should update the corresponding color theme
+        if (key === "blackUrl") {
+            key = "black";
+        }
+        if (key === "whiteUrl") {
+            key = "white";
         }
 
         if (key === "line") { // Changing the line color should update the board theme
@@ -116,7 +128,7 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
 
     render() {
         const inputStyle = {height: `${this.state.size}px`, width: `${this.state.size * 1.5}px`};
-        const {boardCustom, lineCustom, whiteCustom, blackCustom, urlCustom} = this.state;
+        const {boardCustom, lineCustom, whiteCustom, blackCustom, urlCustom, blackUrlCustom, whiteUrlCustom} = this.state;
 
         return (
             <div className="GobanThemePicker">
@@ -168,6 +180,13 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
                         <div>
                             <input type="color" style={inputStyle} value={whiteCustom} onChange={this.setCustom.bind(this, "white")} />
                             <button className="color-reset" onClick={this.setCustom.bind(this, "white")}><i className="fa fa-undo"/></button>
+                            <input className="customUrlSelector"
+                                type="text"
+                                value={whiteUrlCustom}
+                                placeholder={pgettext("Custom image url for the white stones", "Custom white stones URL")}
+                                onFocus={e => e.target.select()}
+                                onChange={this.setCustom.bind(this, "whiteUrl")}
+                            />
                         </div>
                     }
                 </div>
@@ -186,6 +205,13 @@ export class GobanThemePicker extends React.PureComponent<GobanThemePickerProper
                         <div>
                             <input type="color" style={inputStyle} value={blackCustom} onChange={this.setCustom.bind(this, "black")} />
                             <button className="color-reset" onClick={this.setCustom.bind(this, "black")}><i className="fa fa-undo"/></button>
+                            <input className="customUrlSelector"
+                                type="text"
+                                value={blackUrlCustom}
+                                placeholder={pgettext("Custom image url for the black stones", "Custom black stones URL")}
+                                onFocus={e => e.target.select()}
+                                onChange={this.setCustom.bind(this, "blackUrl")}
+                            />
                         </div>
                     }
                 </div>

@@ -32,6 +32,8 @@ data.setDefault("custom.white", "#FFFFFF");
 data.setDefault("custom.board", "#DCB35C");
 data.setDefault("custom.line", "#000000");
 data.setDefault("custom.url", "");
+data.setDefault("custom.blackUrl", "");
+data.setDefault("custom.whiteUrl", "");
 
 export function configure_goban() {
     Goban.setHooks({
@@ -100,6 +102,8 @@ export function configure_goban() {
         plainBoardColor: (): string => data.get("custom.board"),
         plainBoardLineColor: (): string => data.get("custom.line"),
         plainBoardUrl: (): string => data.get("custom.url"),
+        discWhiteStoneUrl: (): string => data.get("custom.whiteUrl"),
+        discBlackStoneUrl: (): string => data.get("custom.blackUrl"),
 
         addCoordinatesToChatInput: (coordinates: string): void => {
             const chat_input = $(".chat-input");
